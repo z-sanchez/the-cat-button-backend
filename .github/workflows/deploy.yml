@@ -20,7 +20,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SERVER_KEY }}
           source: "."
-          target: "/the-cat-button-backend"
+          target: "the-cat-button-backend"
           strip_components: 1
 
       - name: Restart Nginx
