@@ -15,10 +15,28 @@ jobs:
 
       - name: Set up SSH key
         run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH
         run: |
+          ssh -i ~/.ssh/id_ed25519 ubuntu@${{ secrets.SERVER_IP }} "
+            export NVM_DIR=\$HOME/.nvm &&
+            [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\" &&
+            cd the-cat-button-backend &&
+            git remote set-url origin git@github.com:z-sanchez/the-cat-button-backend.git &&
+            git pull &&
+            npm install &&
+            pm2 restart all
+          "
 
       - name: Restart Nginx
         uses: appleboy/ssh-action@v0.1.7
         with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ubuntu
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
+            sudo systemctl restart nginx
