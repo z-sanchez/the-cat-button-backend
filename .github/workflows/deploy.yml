@@ -29,6 +29,7 @@ jobs:
             git remote set-url origin git@github.com:z-sanchez/the-cat-button-backend.git &&
             git pull &&
             npm install &&
+            npm run build &&
             pm2 restart all
           "
 
