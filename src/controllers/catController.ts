@@ -12,6 +12,7 @@ export const getCat = async (
     const cats = await Cat.find();
     const randomCat = cats[Math.floor(Math.random() * cats.length)];
 
+    console.log({ randomCat });
     res.status(200).json(randomCat);
   } catch (err) {
     next(err);
