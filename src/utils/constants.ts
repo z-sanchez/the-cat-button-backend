@@ -1,0 +1,1 @@
+export const GENERATE_NEW_CAT_CHANCE = 0.25;

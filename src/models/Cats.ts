@@ -12,7 +12,7 @@ interface ICat extends Document {
 }
 
 const CatSchema = new Schema<ICat>({
-  id: { type: Number, required: true },
+  id: { type: Number, required: false },
   imageSource: { type: String, required: true },
   name: { type: String, required: true },
   age: { type: Number, required: true },
