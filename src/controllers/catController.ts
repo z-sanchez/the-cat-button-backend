@@ -18,7 +18,7 @@ export const getCat = async (
 
     // if (shouldBeNewCat) {
 
-    // result = await buildNewCat();
+    // const result = await buildNewCat();
     // }
 
     //  else {

@@ -62,9 +62,9 @@ const mockResponse = {
 };
 
 export const buildNewCat = async () => {
-  const imageSource = await fetch(
-    `https://api.unsplash.com/photos/random?query=cats&client_id=${process.env.UNSPLASH_ACCESS_KEY}`
-  ).then((response) => response.json());
+  // const imageSource = await fetch(
+  //   `https://api.unsplash.com/photos/random?query=cats&client_id=${process.env.UNSPLASH_ACCESS_KEY}`
+  // ).then((response) => response.json());
 
   const prompt = `
     Generate a unique and whimsical cat profile with:
@@ -92,17 +92,26 @@ export const buildNewCat = async () => {
   const origin = lines[4].split("Origin:")[1].trim().replace("** ", "");
   const backstory = lines[5].split("Backstory:")[1].trim().replace("** ", "");
 
-  const newCat = new Cat({
-    imageSource: imageSource.urls.regular,
+  // const newCat = new Cat({
+  //   imageSource: imageSource.urls.regular,
+  //   name,
+  //   age,
+  //   occupation,
+  //   hobby,
+  //   origin,
+  //   backstory,
+  // });
+
+  // newCat.save();
+
+  return {
+    text: gptResponse.output_text,
     name,
+    parsedAge,
     age,
     occupation,
     hobby,
     origin,
     backstory,
-  });
-
-  newCat.save();
-
-  return newCat;
+  };
 };
