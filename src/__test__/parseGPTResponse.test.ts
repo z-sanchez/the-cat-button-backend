@@ -1,10 +1,6 @@
 import { parseGPTResponseToCat } from "../utils/parseGPTResponse";
 import testGPTResponses from "./fixtures/testData.json";
 
-test("add 1 + 2 to equal 3", () => {
-  expect(1 + 2).toBe(3);
-});
-
 describe("Parse GPT Cat Response One", () => {
   const response = testGPTResponses.data[4].text;
   const parsedCat = parseGPTResponseToCat(response);
