@@ -19,4 +19,4 @@ jobs:
       - name: npm install
         run: npm i
       - name: tests
-        run: npm workflow-test
+        run: npm run workflow-test
