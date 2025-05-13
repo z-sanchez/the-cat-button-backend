@@ -12,13 +12,13 @@ export const getCat = async (
   next: NextFunction
 ) => {
   try {
-    let result = MOCKED_CATS.cats[0];
+    // let result = MOCKED_CATS.cats[0];
 
     // const shouldBeNewCat = Math.random() < GENERATE_NEW_CAT_CHANCE;
 
     // if (shouldBeNewCat) {
 
-    // const result = await buildNewCat();
+    const result = await buildNewCat();
     // }
 
     //  else {

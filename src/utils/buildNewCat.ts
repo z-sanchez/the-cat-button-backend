@@ -1,5 +1,6 @@
 import { client } from "../connectors/gpt.js";
 import { Cat } from "../models/Cats.js";
+import { parseGPTResponseToCat } from "./parseGPTResponse.js";
 
 const mockResponse = {
   id: "resp_681ef5a3fde081918393fcc8d5ab7f6a0cc44107943ecf2a",
@@ -62,9 +63,9 @@ const mockResponse = {
 };
 
 export const buildNewCat = async () => {
-  // const imageSource = await fetch(
-  //   `https://api.unsplash.com/photos/random?query=cats&client_id=${process.env.UNSPLASH_ACCESS_KEY}`
-  // ).then((response) => response.json());
+  const imageSource = await fetch(
+    `https://api.unsplash.com/photos/random?query=cats&client_id=${process.env.UNSPLASH_ACCESS_KEY}`
+  ).then((response) => response.json());
 
   const prompt = `
     Generate a unique and whimsical cat profile with:
@@ -82,36 +83,19 @@ export const buildNewCat = async () => {
     max_output_tokens: 150,
   });
 
-  const text = gptResponse.output_text.trim().replace("** ", "");
-  const lines = text.split("\n").filter(Boolean);
-  const name = lines[0].split("Name:")[1].trim().replace("** ", "");
-  const parsedAge = Number(lines[1].split("Age:")[1].trim().split(" ")[0]);
-  const age = isNaN(parsedAge) ? 0 : parsedAge;
-  const occupation = lines[2].split("Occupation:")[1].trim().replace("** ", "");
-  const hobby = lines[3].split("Hobby:")[1].trim().replace("** ", "");
-  const origin = lines[4].split("Origin:")[1].trim().replace("** ", "");
-  const backstory = lines[5].split("Backstory:")[1].trim().replace("** ", "");
+  const parsedCat = parseGPTResponseToCat(gptResponse.output_text);
 
-  // const newCat = new Cat({
-  //   imageSource: imageSource.urls.regular,
-  //   name,
-  //   age,
-  //   occupation,
-  //   hobby,
-  //   origin,
-  //   backstory,
-  // });
+  const newCat = new Cat({
+    imageSource: imageSource.urls.regular,
+    name: parsedCat.name,
+    age: parsedCat.age,
+    occupation: parsedCat.occupation,
+    hobby: parsedCat.hobby,
+    origin: parsedCat.origin,
+    backstory: parsedCat.backstory,
+  });
 
-  // newCat.save();
+  newCat.save();
 
-  return {
-    text: gptResponse.output_text,
-    name,
-    parsedAge,
-    age,
-    occupation,
-    hobby,
-    origin,
-    backstory,
-  };
+  return newCat;
 };
