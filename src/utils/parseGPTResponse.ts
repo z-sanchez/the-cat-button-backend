@@ -1,5 +1,4 @@
 export const parseGPTResponseToCat = (response: string) => {
-  console.log({ response });
   const text = response.trim();
   const lines = text.split("\n").filter(Boolean);
 

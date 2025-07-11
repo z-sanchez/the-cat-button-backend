@@ -18,3 +18,12 @@ describe("Parse GPT Cat Response One", () => {
     expect(parsedCat.age).toBe(7);
   });
 });
+
+describe("Parse GPT Cat Text Response", () => {
+  test("Should parse cat successfully", () => {
+    const response = testGPTResponses.gptTextResponses[0];
+    const parsedCat = parseGPTResponseToCat(response);
+
+    expect(parsedCat.name).toBe("Sir Whiskers Noodlewhomp");
+  });
+});
