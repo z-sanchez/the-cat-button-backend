@@ -20,6 +20,7 @@ export const buildNewCat = async () => {
   const gptResponse = await client.responses.create({
     model: "gpt-4.1",
     input: prompt,
+    temperature: 1.8,
     max_output_tokens: 150,
   });
 
