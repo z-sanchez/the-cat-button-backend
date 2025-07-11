@@ -4,7 +4,7 @@ import { MOCKED_CATS } from "../mock/exportCats.js";
 import { GENERATE_NEW_CAT_CHANCE } from "../utils/constants.js";
 import { buildNewCat } from "../utils/buildNewCat.js";
 
-// GET /api/cats - fetch random cat
+// GET /api/cats - fetch random cat or previously stored one
 
 export const getCat = async (
   req: Request,
@@ -12,23 +12,29 @@ export const getCat = async (
   next: NextFunction
 ) => {
   try {
-    // let result = MOCKED_CATS.cats[0];
+    const shouldBeNewCat = Math.random() < GENERATE_NEW_CAT_CHANCE;
 
-    // const shouldBeNewCat = Math.random() < GENERATE_NEW_CAT_CHANCE;
+    if (shouldBeNewCat) {
+      const result = await buildNewCat();
+      res.status(200).json(result);
+    }
 
-    // if (shouldBeNewCat) {
+    const cats = await Cat.find();
+    const result = cats[Math.floor(Math.random() * cats.length)];
 
-    const result = await buildNewCat();
-    // }
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+};
 
-    //  else {
-    //   const cats = await Cat.find();
-
-    //   result = cats[Math.floor(Math.random() * cats.length)];
-    // }
-
-    console.log("SERVER HIT");
-
+export const getMockedCat = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = MOCKED_CATS.cats[0];
     res.status(200).json(result);
   } catch (err) {
     next(err);
