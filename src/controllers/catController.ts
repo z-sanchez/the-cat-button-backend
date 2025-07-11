@@ -16,7 +16,13 @@ export const getCat = async (
 
     if (shouldBeNewCat) {
       const result = await buildNewCat();
-      res.status(200).json(result);
+
+      if (result !== null) {
+        res.status(200).json(result);
+        return;
+      } else {
+        console.error("Failed to build new cat: buildNewCat() returned null");
+      }
     }
 
     const cats = await Cat.find();
@@ -35,6 +41,24 @@ export const getMockedCat = async (
 ) => {
   try {
     const result = MOCKED_CATS.cats[0];
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getNewCat = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = await buildNewCat();
+
+    if (result === null) {
+      throw Error("Failed to build new cat: buildNewCat() returned null");
+    }
+
     res.status(200).json(result);
   } catch (err) {
     next(err);

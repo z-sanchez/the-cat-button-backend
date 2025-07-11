@@ -1,4 +1,5 @@
 export const parseGPTResponseToCat = (response: string) => {
+  console.log({ response });
   const text = response.trim();
   const lines = text.split("\n").filter(Boolean);
 
@@ -24,4 +25,24 @@ export const parseGPTResponseToCat = (response: string) => {
     origin,
     backstory,
   };
+};
+
+export const isValidCat = (cat: {
+  imageSource: any;
+  name: string;
+  age: any;
+  occupation: any;
+  hobby: any;
+  origin: any;
+  backstory: any;
+}) => {
+  return (
+    typeof cat.age === "number" &&
+    cat.imageSource !== "" &&
+    cat.occupation !== "" &&
+    cat.hobby !== "" &&
+    cat.origin !== "" &&
+    cat.backstory !== "" &&
+    cat.name !== ""
+  );
 };
